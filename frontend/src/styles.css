@@ -1,0 +1,128 @@
+*,::after,::before{
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+:root{
+    --transition:all linear .3s;
+}
+body{
+    background-color: aliceblue;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.container{
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .2);
+    padding: 2rem;
+    border-radius: .5rem;
+    width: 70%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+ul{
+    list-style: none;
+}
+.title{
+    font-size: large;
+    font-weight: bold;
+}
+.underline{
+    width: 5rem;
+    height: .2rem;
+    background-color: dodgerblue;
+}
+.input{
+    width: 90%;
+}
+#grocery-input{
+    border: none;
+    background-color: whitesmoke;
+    border-top-left-radius: .4rem;
+    border-bottom-left-radius: .4rem;
+    padding: .5rem;
+    width: 70%;
+}
+.submit{
+    width: 30%;
+    text-transform: capitalize;
+    padding: .5rem;
+    background-color: dodgerblue;
+    color: aliceblue;
+    border-top-right-radius: .4rem;
+    border-bottom-right-radius: .4rem;
+    font-weight: bold;
+    transition: var(--transition);
+}
+.submit:hover{
+    background-color: lightskyblue;
+    color: dodgerblue;
+}
+.grocery-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    border: 1px solid gray;
+    padding: .5rem;
+    border-radius: .3rem;
+}
+.grocery-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+button{
+    border: none;
+    background: transparent;
+}
+.edit{
+    color: green;
+    transition: var(--transition);
+}
+.edit:hover{
+    color: lightgreen;
+}
+.delete{
+    color: red;
+    transition: var(--transition);
+}
+.delete:hover{
+    color: tomato;
+}
+.alert{
+    padding: .1rem .4rem;
+    border-radius: .2rem;
+}
+.alert-danger{
+    color: red;
+    background-color: tomato;
+}
+.alert-warning{
+    color: goldenrod;
+    background-color: lightgoldenrodyellow;
+}
+.alert-success{
+    color: green;
+    background-color: lightgreen;
+}
+.clear-btn{
+    color: white;
+    background-color: red;
+    padding: .5rem 1rem;
+    border-radius: .3rem;
+    font-size: large;
+    font-weight: bold;
+}
