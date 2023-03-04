@@ -1,12 +1,15 @@
 import React, { useState, useContext } from "react";
 const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
-	const getLocalStorage = () => {
-		let list = localStorage.getItem("list");
-		if (list) return JSON.parse(list);
-		else return [];
+	const url = "http://localhost:5000/api/v1/grocery";
+	const getData = async () => {
+		const response = await fetch(url);
+		const data = await response.json();
+		const list = data.groceryItems;
+		await setList(list);
+		return list;
 	};
-	const [list, setList] = useState(getLocalStorage());
+	const [list, setList] = useState([]);
 	const [name, setName] = useState("");
 	const [editID, setEditID] = useState(null);
 	const [isEditing, setIsEditing] = useState(false);
@@ -15,26 +18,36 @@ const AppProvider = ({ children }) => {
 		setAlert({ show, type, msg });
 	};
 	const removeItem = (id) => {
-		showAlert(true, "danger", "item removed");
-		const newList = list.filter((item) => {
-			return item.id !== id;
-		});
-		setList(newList);
+		fetch(url + "/" + id, { method: "DELETE" })
+			.then((res) => {
+				return res.json();
+			})
+			.then(() => {
+				getData();
+				showAlert(true, "danger", "item removed");
+			});
 	};
 	const editItem = (id) => {
-		const targetItem = list.find((item) => item.id === id);
-		setIsEditing(true);
-		setEditID(id);
-		setName(targetItem.title);
+		fetch(url + "/" + id)
+			.then((res) => {
+				return res.json();
+			})
+			.then((data) => {
+				setIsEditing(true);
+				setEditID(id);
+				setName(data.item.title);
+			});
 	};
 	const clearList = () => {
-		showAlert(true, "danger", "empty list");
-		setList([]);
+		fetch(url, { method: "DELETE" }).then(() => {
+			getData();
+			showAlert(true, "danger", "empty list");
+		});
 	};
 	return (
 		<AppContext.Provider
 			value={{
-				getLocalStorage,
+				url,
 				list,
 				setList,
 				name,
@@ -49,6 +62,7 @@ const AppProvider = ({ children }) => {
 				editItem,
 				removeItem,
 				clearList,
+				getData,
 			}}
 		>
 			{children}

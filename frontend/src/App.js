@@ -2,15 +2,9 @@ import { useEffect } from "react";
 import Alert from "./components/Alert";
 import List from "./components/List";
 import { useGlobalContext } from "./components/context";
-/* const getLocalStorage = () => {
-	let list = localStorage.getItem("list");
-	if (list) return JSON.parse(localStorage.getItem("list"));
-	else return [];
-}; */
 const App = () => {
 	const {
-		list,
-		setList,
+		url,
 		name,
 		setName,
 		editID,
@@ -20,59 +14,47 @@ const App = () => {
 		alert,
 		showAlert,
 		clearList,
+		getData,
 	} = useGlobalContext();
-	//const [list, setList] = useState(getLocalStorage());
-	//const [name, setName] = useState("");
-	//const [editID, setEditID] = useState(null);
-	//const [isEditing, setIsEditing] = useState(false);
-	//const [alert, setAlert] = useState({ show: false, msg: "", type: "" });
-	/* const showAlert = (show = false, type = "", msg = "") => {
-		setAlert({ show, type, msg });
-	}; */
-	/* const clearList = () => {
-		showAlert(true, "danger", "empty list");
-		setList([]);
-	}; */
-	/* const removeItem = (id) => {
-		showAlert(true, "danger", "item removed");
-		const newList = list.filter((item) => {
-			return item.id !== id;
-		});
-		setList(newList);
-	}; */
-	/* const editItem = (id) => {
-		const targetItem = list.find((item) => item.id === id);
-		setIsEditing(true);
-		setEditID(id);
-		setName(targetItem.title);
-	}; */
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (!name) {
 			showAlert(true, "warning", "please enter value");
 		} else if (name && isEditing) {
-			setList(
-				list.map((item) => {
-					if (item.id === editID) {
-						return { ...item, title: name };
-					}
-					return item;
-				})
-			);
-			setName("");
-			setEditID(null);
-			setIsEditing(false);
-			showAlert(true, "success", "value edited");
+			fetch(url + "/" + editID, {
+				method: "PATCH",
+				body: JSON.stringify({
+					title: name,
+				}),
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+			}).then(() => {
+				setName("");
+				setEditID(null);
+				setIsEditing(false);
+				showAlert(true, "success", "value edited");
+				getData();
+			});
 		} else {
 			showAlert(true, "success", "new item added");
-			const newItem = { id: new Date().getTime().toString(), title: name };
-			setList([...list, newItem]);
+			fetch(url, {
+				method: "POST",
+				body: JSON.stringify({
+					title: name,
+				}),
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+			}).then(() => getData());
 			setName("");
 		}
 	};
 	useEffect(() => {
-		localStorage.setItem("list", JSON.stringify(list));
-	}, [list]);
+		getData();
+	}, []);
 	return (
 		<main>
 			<form className="container">

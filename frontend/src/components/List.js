@@ -6,8 +6,8 @@ const List = () => {
 	return (
 		<ul className="grocery-list">
 			{list.map((item) => {
-				const { id, title } = item;
-				return <Item key={id} {...{ id, title }} />;
+				const { _id, title } = item;
+				return <Item key={_id} {...{ _id, title }} />;
 			})}
 		</ul>
 	);
