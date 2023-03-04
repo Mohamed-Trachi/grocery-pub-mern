@@ -19,8 +19,6 @@ const App = () => {
 		setIsEditing,
 		alert,
 		showAlert,
-		editItem,
-		removeItem,
 		clearList,
 	} = useGlobalContext();
 	//const [list, setList] = useState(getLocalStorage());
@@ -78,7 +76,7 @@ const App = () => {
 	return (
 		<main>
 			<form className="container">
-				{alert.show && <Alert {...alert} showAlert={showAlert} list={list} />}
+				{alert.show && <Alert {...alert} />}
 				<div className="title">Grocery Bud</div>
 				<div className="underline"></div>
 				<div className="input">
@@ -94,7 +92,7 @@ const App = () => {
 						submit
 					</button>
 				</div>
-				<List items={list} removeItem={removeItem} editItem={editItem} />
+				<List />
 				<button className="clear-btn" type="button" onClick={clearList}>
 					Clear List
 				</button>

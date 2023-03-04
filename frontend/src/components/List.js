@@ -1,10 +1,13 @@
 import Item from "./Item";
-const List = ({ items, removeItem, editItem }) => {
+import { useGlobalContext } from "./context";
+
+const List = () => {
+	const { list } = useGlobalContext();
 	return (
 		<ul className="grocery-list">
-			{items.map((item) => {
+			{list.map((item) => {
 				const { id, title } = item;
-				return <Item key={id} {...{ id, title, removeItem, editItem }} />;
+				return <Item key={id} {...{ id, title }} />;
 			})}
 		</ul>
 	);

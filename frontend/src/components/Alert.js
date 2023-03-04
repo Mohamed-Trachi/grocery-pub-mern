@@ -1,5 +1,8 @@
 import { useEffect } from "react";
-const Alert = ({ type, msg, showAlert, list }) => {
+import { useGlobalContext } from "./context";
+const Alert = ({ type, msg }) => {
+	const { list, showAlert } = useGlobalContext();
+
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			showAlert();

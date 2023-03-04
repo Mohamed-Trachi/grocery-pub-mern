@@ -1,18 +1,27 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+
+const connectDB = require("./db/connect");
+const notFound = require("./middleware/not-found");
+const router = require("./routes/grocery.router");
+
 const app = express();
 const port = process.env.PORT || 5000;
+
 app.use(express.json());
-const fnc = (req, res) => {
-	res.send("hello");
-};
-const notFound = (req, res) => {
-	res.status(400).json({ msg: "Route Not Found" });
-};
 app.use(cors());
-app.get("/", fnc);
+
+app.use("/api/v1/", router);
 app.use(notFound);
-app.listen(port, () => {
-	console.log(`listening on port ${port}`);
-});
+const start = async () => {
+	try {
+		await connectDB(process.env.MONGO_URI);
+		app.listen(port, () => {
+			console.log(`listening on port ${port}`);
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+start();

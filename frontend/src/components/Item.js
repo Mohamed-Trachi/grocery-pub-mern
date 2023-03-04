@@ -1,5 +1,7 @@
 import { FaEdit, FaTrash } from "react-icons/fa";
-const Item = ({ id, title, editItem, removeItem }) => {
+import { useGlobalContext } from "./context";
+const Item = ({ id, title }) => {
+	const { editItem, removeItem } = useGlobalContext();
 	return (
 		<li className="grocery-item">
 			<span className="grocery-text">{title}</span>
